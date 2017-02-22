@@ -1,0 +1,22 @@
+CREATE SEQUENCE trimestre_id_seq START 1;
+CREATE TABLE trimestre (
+	id integer NOT NULL DEFAULT nextval('trimestre_id_seq '::regclass),
+	unidadeid integer,
+	descricao character varying(100),
+	data_inicial date,
+	data_final date,
+	CONSTRAINT pk_trimestre PRIMARY KEY(id,unidadeid),
+	CONSTRAINT fk_unidade FOREIGN KEY(unidadeid) REFERENCES unidade
+);
+
+
+CREATE SEQUENCE desbloqueio_id_seq START 1;
+CREATE TABLE desbloqueio(
+	id integer NOT NULL DEFAULT nextval('desbloqueio_id_seq'::regclass),
+	trimestreid integer,
+	coordenadoriaid integer,
+	unidadeid integer,
+	data_fim date,
+	CONSTRAINT pk_desbloqueio PRIMARY KEY(id),
+	CONSTRAINT fk_trimestre FOREIGN KEY (trimestreid,coordenadoriaid) REFERENCES trimestre(id,unidadeid)
+);
